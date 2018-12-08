@@ -6,6 +6,7 @@
   "scripts": {
     "watch": "webpack --watch --mode development",
     "dev": "web-ext --source-dir dist run",
+    "build": "webpack --mode production && web-ext build --overwrite-dest",
     "test": "xo && ava"
   },
   "devDependencies": {
