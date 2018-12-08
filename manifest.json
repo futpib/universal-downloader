@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "Universal downloader",
+  "description": "Download (almost) any media on any web page",
+  "version": "1.0",
+  "applications": {
+    "gecko": {
+      "strict_min_version": "63"
+    }
+  },
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+
+  "permissions": ["webRequest", "<all_urls>", "menus", "downloads", "tabs",  "webNavigation", "clipboardWrite"],
+}

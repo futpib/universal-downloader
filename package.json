@@ -1,0 +1,38 @@
+{
+  "name": "universal-downloader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "GPL-3.0+",
+  "scripts": {
+    "watch": "webpack --watch --mode development",
+    "dev": "web-ext --source-dir dist run",
+    "test": "xo && ava"
+  },
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "copy-webpack-plugin": "^4.6.0",
+    "eslint-config-xo-overrides": "^1.2.0",
+    "jsdom": "^13.0.0",
+    "web-ext": "^2.9.2",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
+    "xo": "^0.23.0"
+  },
+  "dependencies": {
+    "cuid": "^2.1.4",
+    "lru_map": "^0.3.3",
+    "parse-domain": "^2.1.7",
+    "r-dom": "^2.4.0",
+    "ramda": "^0.26.1",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "whatwg-url": "^7.0.0"
+  },
+  "xo": {
+    "extends": [
+      "eslint-config-xo-overrides"
+    ]
+  }
+}
