@@ -9,7 +9,6 @@ module.exports = {
 	entry: {
 		background: './background.js',
 		content: './content.js',
-		sidebar: './sidebar.js',
 	},
 
 	output: {
