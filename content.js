@@ -2,12 +2,6 @@
 
 const { elementToDownloadable } = require('./utils/element-to-downloadable');
 
-let lastClickEvent = null;
-
-window.addEventListener('click', e => {
-	lastClickEvent = e;
-}, true);
-
 const background = {
 	queue: [],
 
@@ -25,6 +19,14 @@ const background = {
 	},
 };
 
+let lastClickEvent = null;
+let lastContextMenuShownMessage = null;
+
+window.addEventListener('click', e => {
+	lastClickEvent = e;
+	handleContextMenu();
+}, true);
+
 browser.runtime.onConnect.addListener(port => {
 	background.handleConnect(port);
 	port.onMessage.addListener(message => {
@@ -32,23 +34,35 @@ browser.runtime.onConnect.addListener(port => {
 			return;
 		}
 
-		const { id } = message.meta;
-
-		const contextMenuTarget = browser.menus.getTargetElement(message.payload.targetElementId);
-
-		if (lastClickEvent.target !== contextMenuTarget) {
-			return;
-		}
-
-		const elements = window.document.elementsFromPoint(lastClickEvent.x, lastClickEvent.y);
-
-		port.postMessage({
-			type: 'CONTEXT_MENU_DOWNLOADABLE_ELEMENTS',
-			payload: elements.map(elementToDownloadable).filter(d => d && d.sources.length > 0),
-			meta: { id },
-		});
+		lastContextMenuShownMessage = message;
+		handleContextMenu();
 	});
 });
+
+const handleContextMenu = () => {
+	if (!(lastClickEvent && lastContextMenuShownMessage)) {
+		return;
+	}
+
+	const {
+		payload: { targetElementId },
+		meta: { id },
+	} = lastContextMenuShownMessage;
+
+	const contextMenuTarget = browser.menus.getTargetElement(targetElementId);
+
+	if (lastClickEvent.target !== contextMenuTarget) {
+		return;
+	}
+
+	const elements = window.document.elementsFromPoint(lastClickEvent.x, lastClickEvent.y);
+
+	background.postMessage({
+		type: 'CONTEXT_MENU_DOWNLOADABLE_ELEMENTS',
+		payload: elements.map(elementToDownloadable).filter(d => d && d.sources.length > 0),
+		meta: { id },
+	});
+};
 
 const { createObjectURL } = window.URL;
 exportFunction(function (object, ...rest) {
