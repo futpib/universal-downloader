@@ -5,7 +5,7 @@
   "version": "1.0",
   "applications": {
     "gecko": {
-      "strict_min_version": "63.0.3"
+      "strict_min_version": "63.0"
     }
   },
 
