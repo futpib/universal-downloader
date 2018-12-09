@@ -1,7 +1,7 @@
 
 const path = require('path');
 const { URL } = require('whatwg-url');
-const { m3uExtensions } = require('../is-potential-media-source-request');
+const { m3uExtensions, maxUrlLength } = require('../is-potential-media-source-request');
 
 const m3uContentTypes = new Set([
 	'application/x-mpegURL',
@@ -9,7 +9,17 @@ const m3uContentTypes = new Set([
 
 const isPotentialMediaSourceResponse = details => {
 	const { url, type } = details;
-	const { pathname } = new URL(url);
+
+	if (url.length > maxUrlLength) {
+		return false;
+	}
+
+	const { protocol, pathname } = new URL(url);
+
+	if (protocol === 'data:') {
+		return false;
+	}
+
 	const extname = path.extname(pathname);
 
 	if (type === 'xmlhttprequest' && m3uExtensions.has(extname)) {

@@ -16,6 +16,12 @@ module.exports = {
 		filename: '[name].js',
 	},
 
+	resolve: {
+		alias: {
+			path: 'path-browserify',
+		},
+	},
+
 	plugins: [
 		new CopyWebpackPlugin([
 			{ from: 'manifest.json', to: dist },
