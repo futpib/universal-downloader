@@ -261,7 +261,7 @@ const getDownloadOptions = (menuShownInfo, tab, downloadable) => {
 };
 
 const downloadableToSubmenuItemInfo = (menuShownInfo, tab, downloadable) => {
-	const { mediaSourceUrls, downloadOptions } = getDownloadOptions(menuShownInfo, tab, downloadable);
+	const { mediaSourceUrls, downloadOptions } = getDownloadOptions(menuShownInfo, tab, downloadable) || {};
 	if (downloadOptions) {
 		const { hostname, pathname } = new URL(downloadOptions.url);
 		const { domain } = parseDomain(hostname);
