@@ -191,16 +191,12 @@ browser.menus.onShown.addListener(async (menuShownInfo, tab) => {
 			visible: false,
 		});
 	} else {
-		await browser.menus.update(rootMenuId, {
-			visible: true,
-		});
-
 		await Promise.all([ ...submenuItemIdToInfo.keys() ].map(i => {
 			submenuItemIdToInfo.delete(i);
 			return browser.menus.remove(i);
 		}));
 
-		await Promise.all(flatten(
+		const addedItems = await Promise.all(flatten(
 			message.payload.map(downloadable => downloadableToSubmenuItemInfo(menuShownInfo, tab, downloadable))
 		).map(info => new Promise(resolve => {
 			const id = browser.menus.create({
@@ -209,6 +205,10 @@ browser.menus.onShown.addListener(async (menuShownInfo, tab) => {
 			}, resolve);
 			submenuItemIdToInfo.set(id, info);
 		})));
+
+		await browser.menus.update(rootMenuId, {
+			visible: addedItems.length > 0,
+		});
 	}
 
 	if (shownMenuId !== id) {
