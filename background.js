@@ -234,9 +234,10 @@ const getDownloadOptions = (menuShownInfo, tab, downloadable) => {
 		const pageUrl_ = new URL(menuShownInfo.pageUrl);
 
 		const { hostname, pathname } = pageUrl_;
+		const { domain } = parseDomain(hostname);
 		const leafname = last(url_.pathname.split('/'));
 		const filename = [
-			hostname,
+			domain,
 			...pathname.split('/'),
 			leafname,
 		].filter(Boolean).join('_');
