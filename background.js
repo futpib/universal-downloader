@@ -218,8 +218,12 @@ browser.menus.onShown.addListener(async (menuShownInfo, tab) => {
 	await browser.menus.refresh();
 });
 
-browser.menus.onHidden.addListener(() => {
+browser.menus.onHidden.addListener(async () => {
 	shownMenuId = null;
+
+	await browser.menus.update(rootMenuId, {
+		visible: false,
+	});
 });
 
 const isBlobSource = s => (new URL(s.src)).protocol === 'blob:';
