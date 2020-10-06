@@ -27,6 +27,11 @@ window.addEventListener('click', e => {
 	handleContextMenu();
 }, true);
 
+window.addEventListener('contextmenu', e => {
+	lastClickEvent = e;
+	handleContextMenu();
+}, true);
+
 browser.runtime.onConnect.addListener(port => {
 	background.handleConnect(port);
 	port.onMessage.addListener(message => {
