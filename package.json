@@ -14,7 +14,7 @@
     "ava": "^0.25.0",
     "copy-webpack-plugin": "^4.6.0",
     "eslint-config-xo-overrides": "^1.2.0",
-    "jsdom": "^13.0.0",
+    "jsdom": "^16.5.0",
     "nyc": "^13.1.0",
     "web-ext": "^5.2.0",
     "webpack": "^4.27.1",
